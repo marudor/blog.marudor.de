@@ -1,7 +1,7 @@
 ---
 title: Einfach anfangen
 date: '2020-04-22T22:12:03.284Z'
-published: false
+published: true
 ---
 
 Nachdem mich eine gewisse Person (Du weißt genau das ich dich meine!) gefragt hat warum ich eigentlich nicht blogge hab ich ja mal Twitter gefragt.

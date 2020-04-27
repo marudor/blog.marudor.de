@@ -1,39 +1,39 @@
 module.exports = {
   siteMetadata: {
-    title: `marudors blog`,
-    author: `marudor`,
-    description: `Bahnkram, Javascript, experiment`,
-    siteUrl: `https://blog.marudor.de/`,
+    title: 'marudors blog',
+    author: 'marudor',
+    description: 'Bahnkram, Javascript, experiment',
+    siteUrl: 'https://blog.marudor.de/',
     social: {
-      twitter: `marudor`,
+      twitter: 'marudor',
       github: 'marudor',
     },
   },
   plugins: [
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/content/blog`,
-        name: `blog`,
+        name: 'blog',
       },
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/content/assets`,
-        name: `assets`,
+        name: 'assets',
       },
     },
     {
-      resolve: `gatsby-plugin-mdx`,
+      resolve: 'gatsby-plugin-mdx',
       options: {
         extensions: ['.mdx', '.md'],
         // a workaround to solve mdx-remark plugin compat issue
         // https://github.com/gatsbyjs/gatsby/issues/15486
-        plugins: [`gatsby-remark-images`, 'gatsby-plugin-twitter'],
+        plugins: ['gatsby-remark-images', 'gatsby-plugin-twitter'],
         gatsbyRemarkPlugins: [
           {
-            resolve: `gatsby-remark-embedder`,
+            resolve: 'gatsby-remark-embedder',
             options: {
               customTransformers: [
                 // Your custom transformers
@@ -44,37 +44,37 @@ module.exports = {
             },
           },
           {
-            resolve: `gatsby-remark-images`,
+            resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 590,
             },
           },
           {
-            resolve: `gatsby-remark-responsive-iframe`,
+            resolve: 'gatsby-remark-responsive-iframe',
             options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
+              wrapperStyle: 'margin-bottom: 1.0725rem',
             },
           },
           {
-            resolve: `gatsby-remark-copy-linked-files`,
+            resolve: 'gatsby-remark-copy-linked-files',
           },
 
           {
-            resolve: `gatsby-remark-smartypants`,
+            resolve: 'gatsby-remark-smartypants',
           },
         ],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
         trackingId: 'A-121422835-3',
       },
     },
     {
-      resolve: `gatsby-plugin-feed`,
+      resolve: 'gatsby-plugin-feed',
       options: {
         query: `
           {
@@ -97,8 +97,8 @@ module.exports = {
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   custom_elements: [{ 'content:encoded': edge.node.html }],
-                })
-              })
+                });
+              });
             },
 
             /* if you want to filter for only published posts, you can do
@@ -129,30 +129,30 @@ module.exports = {
             }
             `,
             output: '/rss.xml',
-            title: 'Gatsby RSS feed',
+            title: 'marudors blog RSS feed',
           },
         ],
       },
     },
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `marudors blog`,
-        short_name: `marudors blog`,
-        start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
-        // icon: `content/assets/gatsby-icon.png`,
+        name: 'marudors blog',
+        short_name: 'marudors blog',
+        start_url: '/',
+        background_color: '#ffffff',
+        theme_color: '#663399',
+        display: 'minimal-ui',
+        // icon: 'content/assets/gatsby-icon.png',
       },
     },
-    `gatsby-plugin-offline`,
-    `gatsby-plugin-react-helmet`,
+    'gatsby-plugin-offline',
+    'gatsby-plugin-react-helmet',
     {
-      resolve: `gatsby-plugin-typography`,
+      resolve: 'gatsby-plugin-typography',
       options: {
-        pathToConfigModule: `src/utils/typography`,
+        pathToConfigModule: 'src/utils/typography',
       },
     },
   ],
-}
+};
