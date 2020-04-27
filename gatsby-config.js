@@ -1,11 +1,12 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog MDX`,
-    author: `Matt Hagner`,
-    description: `An extension of the gatsby starter blog, with support for MDX`,
-    siteUrl: `https://gatsby-starter-blog-mdx-demo.netlify.com/`,
+    title: `marudors blog`,
+    author: `marudor`,
+    description: `Bahnkram, Javascript, experiment`,
+    siteUrl: `https://blog.marudor.de/`,
     social: {
-      twitter: `mattinthecouch`,
+      twitter: `marudor`,
+      github: 'marudor',
     },
   },
   plugins: [
@@ -29,10 +30,19 @@ module.exports = {
         extensions: ['.mdx', '.md'],
         // a workaround to solve mdx-remark plugin compat issue
         // https://github.com/gatsbyjs/gatsby/issues/15486
-        plugins: [
-          `gatsby-remark-images`,
-        ],
+        plugins: [`gatsby-remark-images`, 'gatsby-plugin-twitter'],
         gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-embedder`,
+            options: {
+              customTransformers: [
+                // Your custom transformers
+              ],
+              services: {
+                // The service-specific options by the name of the service
+              },
+            },
+          },
           {
             resolve: `gatsby-remark-images`,
             options: {
@@ -60,7 +70,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
+        trackingId: 'A-121422835-3',
       },
     },
     {
@@ -80,7 +90,7 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMdx } }) => {
-              return allMdx.edges.map(edge => {
+              return allMdx.edges.map((edge) => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   data: edge.node.frontmatter.date,
@@ -102,6 +112,7 @@ module.exports = {
               allMdx(
                 limit: 1000,
                 sort: { order: DESC, fields: [frontmatter___date] },
+                filter: { frontmatter: { published: { ne: false } } },
               ) {
                 edges {
                   node {
@@ -109,6 +120,7 @@ module.exports = {
                     frontmatter {
                       title
                       date
+                      published
                     }
                     html
                   }
@@ -125,13 +137,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `marudors blog`,
+        short_name: `marudors blog`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        // icon: `content/assets/gatsby-icon.png`,
       },
     },
     `gatsby-plugin-offline`,
