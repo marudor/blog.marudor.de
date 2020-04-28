@@ -2,6 +2,8 @@
 title: Zugdetails
 date: '2020-04-27T22:12:03.284Z'
 published: true
+redirect_from:
+  - /zugdetail/
 ---
 
 Ich hab in meinen Talks schon öfter über die verschiedenen APIs der Bahn berichtet und was da so komisch läuft.‌‌ Aber ich hab glaub ich noch nie wirklich beschrieben was denn überhaupt so nötig ist um die Features von marudor.de zu realisieren. Und wer das nicht weiß versteht auch nicht warum manche Teile von marudor.de leicht andere Informationen haben als andere.

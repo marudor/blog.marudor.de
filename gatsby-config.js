@@ -155,5 +155,12 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography',
       },
     },
+    {
+      resolve: 'gatsby-redirect-from',
+      options: {
+        query: 'allMdx',
+      },
+    },
+    'gatsby-plugin-meta-redirect',
   ],
 };
