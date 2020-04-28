@@ -4,13 +4,13 @@ date: '2020-04-27T22:12:03.284Z'
 published: true
 ---
 
-Ich hab in meinen Talks schon öfter über die verschiedenen APIs der Bahn berichtet und was da so komisch läuft.‌‌ Aber ich hab glaub ich noch nie wirklich beschrieben was denn überhaupt so nötig ist um die Features von marudor.de zu realiseren. Und wer das nicht weiß versteht auch nicht warum manche Teile von marudor.de leicht andere Informationen haben als andere.
+Ich hab in meinen Talks schon öfter über die verschiedenen APIs der Bahn berichtet und was da so komisch läuft.‌‌ Aber ich hab glaub ich noch nie wirklich beschrieben was denn überhaupt so nötig ist um die Features von marudor.de zu realisieren. Und wer das nicht weiß versteht auch nicht warum manche Teile von marudor.de leicht andere Informationen haben als andere.
 
 Also fang ich mal an ein feature zu erklären, was kann es, welche APIs brauch ich? Welche Fallstricke gibt es?‌‌ Also hier mal einen Überblick über die Zugdetails. Gemeint ist speziell folgendes:
 
 https://marudor.de/details/ICE%20274
 
-Wer die Seite öfter mal benutzt sieht direkt das dieser Link anders ist als welche die ich in der Seite nutze - das liegt daran das dies der unspezifische Link für "Gib mir Details vom ICE 274" ist - ohne weitere Informationen ist das nicht immer eindeutig. Zum einen nehme ich jetzt an das der heutige Tag gemeint ist. Das ist um den Datumswechsel aber oft nicht korrekt. Darum lässt sich optional noch eine Zeit angeben. Und dann gibts noch Züge die nicht eindeutig sind.‌‌Nicht eindeutig? Ja. In Deutschland dürfen nicht zwei Züge zur gleichen Zeit die gleiche Nummer haben. Beim Fernverkehr ist das einfach, Die 4 oder weniger stelligen Nummern sind dem Fernverkehr vorbehalten. Die fahren auch lang genug das sich da keine Probleme ergeben. Anders beim Nahverkehr. Denn hier gibt es teils Dopplungen. Und darum geb ich neben einer Uhrzeit auch die Start oder Endstation an. Dann wirds eindeutig.‌‌  
+Wer die Seite öfter mal benutzt sieht direkt das dieser Link anders ist als welche die ich in der Seite nutze - das liegt daran das dies der unspezifische Link für "Gib mir Details vom ICE 274" ist - ohne weitere Informationen ist das nicht immer eindeutig. Zum einen nehme ich jetzt an das der heutige Tag gemeint ist. Das ist um den Datumswechsel aber oft nicht korrekt. Darum lässt sich optional noch eine Zeit angeben. Und dann gibt es noch Züge die nicht eindeutig sind.‌‌Nicht eindeutig? Ja. In Deutschland dürfen nicht zwei Züge zur gleichen Zeit die gleiche Nummer haben. Beim Fernverkehr ist das einfach, Die 4 oder weniger stelligen Nummern sind dem Fernverkehr vorbehalten. Die fahren auch lang genug das sich da keine Probleme ergeben. Anders beim Nahverkehr. Denn hier gibt es teils Dopplungen. Und darum geb ich neben einer Uhrzeit auch die Start oder Endstation an. Dann wird es eindeutig.‌‌  
 So führt folgender Link zur SBahn Berlin: https://marudor.de/details/S%207104?station=8089021‌‌  
 Ohne die Station allerdings zur SBahn Stuttgart. https://marudor.de/details/S%207104
 
@@ -59,10 +59,10 @@ Zurück zu APIs. Warum ist das in APIs ein Problem? Nun. Ich habe ja erst mal nu
 ]
 ```
 
-Neben dem was hier steht gibts noch den ersten und den letzten Stop. Anfangs hab ich das genutzt um zu filtern. Inzwischen versteh ich genug vom HAFAS um zu wissen wie man eine Station als Filter mitgibt. Ich kann also auch direkt das HAFAS filtern lassen das eine bestimmte Station im verlauf des Zuges vorhanden sein muss.‌‌Damit haben wir also für die Zugdetails den Zug, ersten/letzten Stops und die `jid`. Noch nicht genug für die Detail page. Aber wir haben bisher auch nur ne Suche gemacht um einen bestimmten Zug zu finden - jetzt brauchen wir von dem Details.  
-Praktischer Weise gibts dafür `JourneyDetails`. Das ganze nimmt eine `jid` (JourneyID) und gibt uns start/stop/verspätungen/Messages also alles was wir brauchen. Also theoretisch... denn obwohl da eigentlich alles drin steht was wir brauchen wäre es ja schade wenns auch immer so funktionieren würde...
+Neben dem was hier steht gibt es noch den ersten und den letzten Stop. Anfangs hab ich das genutzt um zu filtern. Inzwischen versteh ich genug vom HAFAS um zu wissen wie man eine Station als Filter mitgibt. Ich kann also auch direkt das HAFAS filtern lassen das eine bestimmte Station im verlauf des Zuges vorhanden sein muss.‌‌Damit haben wir also für die Zugdetails den Zug, ersten/letzten Stops und die `jid`. Noch nicht genug für die Detail page. Aber wir haben bisher auch nur ne Suche gemacht um einen bestimmten Zug zu finden - jetzt brauchen wir von dem Details.  
+Praktischer Weise gibt es dafür `JourneyDetails`. Das ganze nimmt eine `jid` (JourneyID) und gibt uns start/stop/verspätungen/Messages also alles was wir brauchen. Also theoretisch... denn obwohl da eigentlich alles drin steht was wir brauchen wäre es ja schade wenn es auch immer so funktionieren würde...
 
-Das DB HAFAS ist da nämlich besonders. Es löscht Verspätungen von vergangenen stops. Andere wie z.B. die OEBB machen das nicht. Wie schaffen wir es jetzt also neben zukünftigen Stops auch die Verspätung der vergangenen Stops zu bekommen?
+Das DB HAFAS ist da nämlich besonders. Es löscht Verspätungen von vergangenen Stops. Andere wie z.B. die OEBB machen das nicht. Wie schaffen wir es jetzt also neben zukünftigen Stops auch die Verspätung der vergangenen Stops zu bekommen?
 
 Glücklicherweise hat HAFAS da etwas. `SearchOnTrip` eigentlich wohl dafür gedacht Anschlüsse basierend auf einem aktuellen Zug zu bekommen lässt sich damit aber auch `JourneyDetails` etwas anreichern. ‌‌Dafür brauchen wir entweder eine `jid` oder einen `ctxRecon` letzteres haben wir nicht, kommt weder bei `JourneyMatch` noch bei `JourneyDetails` mit. Aber die `jid` haben wir ja noch. Also fragen wir damit mal.
 
@@ -100,6 +100,6 @@ Scheinbar etwas mit `$` getrennt. Schauen wir uns die Variablen Anteile mal an.
 `$S 1$$` - Name des Zuges
 `$S 1$$` - Ich hab sie "replacement Number" getauft. Ist immer eins. Außer bei Ersatzfahren. Dort ist es 2. Genauer weiß ich es auch nicht.
 
-Mit dem `ctxRecon` können wir also wieder `SearchOnTrip` fragen. Jetzt bekommen wir auch eine Antwort. Hier gibt es jetzt zwei Möglichkeiten. Entweder der Respones hat alle Verspätungen - oder keine. Also müssen wir diesen Response mit dem ursprünglichen `JourneyDetails` mergen. Damit haben wir für diesen Zug oft alle Verspätungen, mindestens aber die für die Zukunft.
+Mit dem `ctxRecon` können wir also wieder `SearchOnTrip` fragen. Jetzt bekommen wir auch eine Antwort. Hier gibt es jetzt zwei Möglichkeiten. Entweder der Responses hat alle Verspätungen - oder keine. Also müssen wir diesen Response mit dem ursprünglichen `JourneyDetails` mergen. Damit haben wir für diesen Zug oft alle Verspätungen, mindestens aber die für die Zukunft.
 
-Das wäre damit auch alles für die Details Page. An sich gibts noch 2 Zusatz Infos auf dieser Page - die geplante ICE Baureihe und die Wagenreihung. Aber das kommt dann wohl ein anderes mal.
+Das wäre damit auch alles für die Details Page. An sich gibt es noch 2 Zusatz Infos auf dieser Page - die geplante ICE Baureihe und die Wagenreihung. Aber das kommt dann wohl ein anderes mal.
