@@ -1,9 +1,8 @@
-import React from 'react';
-
+import * as React from 'react';
 import Layout from '../components/Layout';
-import SEO from '../components/seo';
+import SEO from '../components/Seo';
 
-class NotFoundPage extends React.Component {
+class NotFoundPage extends React.Component<any> {
   render() {
     return (
       <Layout location={this.props.location}>

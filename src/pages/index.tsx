@@ -1,16 +1,14 @@
-import React from 'react';
-import { Link, graphql } from 'gatsby';
-
-import Bio from '../components/Bio';
-import Layout from '../components/Layout';
-import SEO from '../components/seo';
+import * as React from 'react';
+import { graphql, Link } from 'gatsby';
 import { rhythm } from '../utils/typography';
+import Layout from '../components/Layout';
+import SEO from '../components/Seo';
 
-class BlogIndex extends React.Component {
+class BlogIndex extends React.Component<any> {
   render() {
     const { data } = this.props;
     const { title, description } = data.site.siteMetadata;
-    const posts = data.allMdx.edges;
+    const posts: any[] = data.allMdx.edges;
 
     return (
       <Layout
@@ -19,9 +17,9 @@ class BlogIndex extends React.Component {
         description={description}
       >
         <SEO title="All posts" keywords={['bahn', 'marudor', 'javascript']} />
-        <Bio />
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug;
+
           return (
             <div key={node.fields.slug}>
               <h3

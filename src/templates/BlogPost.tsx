@@ -1,12 +1,11 @@
-import React from 'react';
-import { Link, graphql } from 'gatsby';
+import * as React from 'react';
+import { graphql, Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
-
-import Layout from '../components/Layout';
-import SEO from '../components/seo';
 import { rhythm, scale } from '../utils/typography';
+import Layout from '../components/Layout';
+import SEO from '../components/Seo';
 
-class BlogPostTemplate extends React.Component {
+class BlogPostTemplate extends React.Component<any> {
   render() {
     const post = this.props.data.mdx;
     const siteTitle = this.props.data.site.siteMetadata.title;

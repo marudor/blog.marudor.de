@@ -1,19 +1,18 @@
 module.exports = {
-  "env": {
-    "browser": true,
-    "es6": true,
+  root: true,
+  extends: ['marudor'],
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
   },
-  "plugins": [
-    "react",
-  ],
-  "globals": {
-    "graphql": false,
+  globals: {
+    __PATH_PREFIX__: false,
   },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true,
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: ['marudor/typescript'],
     },
-  }
-}
+  ],
+};
