@@ -162,5 +162,11 @@ module.exports = {
       },
     },
     'gatsby-plugin-meta-redirect',
+    {
+      resolve: 'gatsby-plugin-page-progress',
+      options: {
+        excludePaths: ['/'],
+      },
+    },
   ],
 };
