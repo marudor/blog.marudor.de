@@ -17,13 +17,13 @@ Aber was verbirgt sich jetzt konkret hinter den drei Kategorien?
 100% Trennung existiert grade bei ÖPNV und SPNV nicht. Denn der ÖPNV beeinhaltet in der Regel S-Bahn, U-bahn, Straßenbahnen, Busse und Fähren. Aber auch Luftseilbahnen je nach Region. Teilweise zählen auch Regionalzüge dazu auch wenn das eig. schon SPNV ist.  
 SPNV ist entsprechend Regionalverkehr - aber auch S-Bahnen.  
 Wenn ich davon rede meine ich allerdings das der ÖPNV Straßenbahnen und Busse beinhaltet. SPNV hingegen nicht. Also die Trennung von allem was auf DB Trassen fährt (streng genommen gibts hier auch Ausnahmen) und Dingen die eher im Bereich Straße fahren.  
-Hauptgrund ist das das Ursprüngliche marudor.de - also die Abfahrtstafel - nur Daten für Züge im DB Bereich hat. Entsprechend werden hier andere Schnittstellen benutzt.  
+Hauptgrund ist das das Ursprüngliche https://marudor.de - also die Abfahrtstafel - nur Daten für Züge im DB Bereich hat. Entsprechend werden hier andere Schnittstellen benutzt.  
 Aber genug davon, zurück zu Datenquellen.
 
 #### Rückblick
 
-Die Tatsache das die SBB eigene Daten hat sollte klar sein. Das erste mal für mich relevant wurden sie schon vor langer Zeit im Kontext Wagenreihungen. Konkret als ich in einem EC der SBB saß (Auch wenn ich von Hamburg nach Düsseldorf gefahren bin, SBB Material wars trotzdem)  
-Dabei hab ich festgestellt das ein Panoramawagen dabei ist und ich das bei mir nicht anzeige. Ich fand damals aber das wäre ja ne super extra Information.  
+Die Tatsache das die SBB eigene Daten hat sollte klar sein. Das erste mal für mich relevant wurden sie schon vor langer Zeit im Kontext Wagenreihungen. Konkret als ich in einem EC der SBB saß (Auch wenn ich von Hamburg nach Düsseldorf gefahren bin, SBB Material war es trotzdem)  
+Dabei hab ich festgestellt das ein Panoramawagen dabei ist und ich das bei mir nicht anzeige. Ich fand aber das wäre ja ne super extra Information.  
 Damals wusste ich auch noch nicht so viel über die Datenlage wie heute. Also fing ich erst mal an in der DB API zu suchen ob es irgendwie ersichtlich ist.  
 Ernüchternd stellte ich fest nein. Absolut nicht. Inzwischen weiß ich auch das es nur Plandaten sind - selbst wenn der Zug in Hamburg startet und die DB damit wissen müsste ob der Zug korrekt gereiht ist.  
 Aber gut, Hamburg -> Düsseldorf sind etwa 4 Stunden. Da hab ich also Zeit etwas zu suchen. Also mal die SBB App geladen und geschaut was die so kann.  
@@ -34,14 +34,14 @@ Tolle Daten SBB. Toll.
 Dann ließ ich das Thema ein bisschen ruhen, hab mir ein Issue gemacht das ich es nicht vergeß und mich nicht mehr drum gekümmert.
 
 Irgendwann wollt ich mir die App dann doch mal genauer anschauen. Also das übliche, den Man in the Middle Proxy auf dem Handy anmachen und mal in die Requests schauen.  
-Ich stelle allerdings schnell fest. Geht nicht. Certificate Pinning, so einfach wirds also nicht.  
+Ich stelle allerdings schnell fest: Geht nicht. Certificate Pinning, so einfach wirds also nicht.  
 Ein bisschen recherche und die Hilfe eines Menschen der mir eine decrypted IPA von der App gegeben hat später und ich hab mit objection und frida Certificate Pinning ausgemacht und mal reingeschaut. Allerdings auch hier schnell die Motivation verloren.
 
 #### Fast Forward ins jetzt (Anfang Mai 2020)
 
 Das Thema kam mal wieder auf. Diesmal wollt ich aber zumindest irgendwas anbinden damit ich nicht wieder von vorne anfange muss.  
 Also erst mal wieder Certificate Pinning lösen.  
-Da ich kein aktuelles decrypted IPA habe und außerdem kein Android wollt ich es im Android Emulator lösen.  
+Da ich kein aktuelles decrypted IPA habe und außerdem kein Android device besitze wollte ich es im Android Emulator lösen.  
 Hat nicht gut geklappt... Das mag an mir gelegen haben, aber dieser Emulator ist auch einfach nicht so dolle dafür.  
 Nach einiger Zeit rumprobieren ist mir allerdings eingefallen das ich ja ein älteres iPad hab das sich jailbreaken lässt. Ich nutz das eh recht wenig, also passt das schon.  
 Also jailbreak drauf, IPA decrypten, objection reinpatchen, aufs ipad damit. Tada - certificate pinning abschaltbar und ich kann in requests reinschauen. (Dieser Teil ist absichtlich nicht ausführlich. Wer das spannend findet schreibt mir einfach mal - eventuell finden das genug das ich nen eigenen Eintrag dazu mache)
@@ -78,7 +78,8 @@ X-API-DATE: 2020-05-11
 X-API-AUTHORIZATION: OuBQb0492/Bcv3miISF6LYu3UsI=
 ```
 
-Damit lässt sich arbeiten. Da der Request vom 11.5.2020 ist wird wohl das aktuelle Datum mitgeschickt. Bleibt der `X-API-AUTHORIZATION` Token. Finden wir raus was er tut.  
+Damit lässt sich arbeiten. Der `X-APP-TOKEN` ist wohl nur fürs tracking. `X-API-DATE` ist wohl das aktuelle Datum. (Request vom 11.5.2020)  
+Bleibt der `X-API-AUTHORIZATION` Token. Finden wir raus was er tut.  
 Sieht erst mal nach base64 aus.
 
 ```jsx react-live
@@ -97,7 +98,7 @@ Hmm. Nicht so hilfreich. Schauen wir uns an was passiert wenn wir den Suchbegrif
 | Züri  | TFqdn6FoQ/MU1YKdWT2HedYaU+E= |
 
 Okay. Die länge bleibt gleich. Also muss da gehashed werden vor dem base64.  
-Das ist jetzt der Moment an dem Source Code praktisch ist. Das geht zwar schwierig mit iOS. aber zum Glück gibts Android und apktool.  
+Das ist jetzt der Moment an dem Source Code praktisch ist. Das geht zwar schwierig mit iOS. Aber zum Glück gibts Android und apktool.  
 Also schauen wir uns mal etwas android an.
 
 #### Android reversing
@@ -112,7 +113,7 @@ const-string v3, "X-API-AUTHORIZATION"
 invoke-virtual {v0, v3, v1}, Lcom/squareup/okhttp/Request$Builder;->addHeader(Ljava/lang/String;Ljava/lang/String;)Lcom/squareup/okhttp/Request$Builder;
 ```
 
-Was passiert hier? Nun. Zeile 4 fügt was auch immer in `v1` steht in den Header `v3`. `v3` ist `X-API-AUTHORIZATION`. Wir müssen also nur rausfinden was in v1 steht.  
+Was passiert hier? Nun. Zeile 4 fügt was auch immer in `v1` steht in den Header `v3`. `v3` ist `X-API-AUTHORIZATION`. Wir müssen also nur rausfinden was in `v1` steht.  
 Zeile 2 zeigt uns das es das Resultat des vorherigen calls ist. Also die static Function `Lch/sbb/mobile/android/repository/common/k/a;->a` welche mit einem `String` und einem `SecretKeySpec` aufgerufen wird. Wobei der `String` `v1` ist und `SecretKeySpec` `v3`.
 Schauen wir uns diese Funktion also mal an.
 
@@ -134,7 +135,7 @@ const/4 p1, 0x2
 invoke-static {p0, p1}, Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
 ```
 
-Eigentlich recht simpel. Wir holen uns eine `javax/crypto/Mac` instanz mit dem Algorithmus aus unserem `SecretKeySpec` hashen damit den übergebenen String und encoden das ganze Base64.  
+Eigentlich recht simpel. Wir holen uns eine `javax/crypto/Mac` Instanz mit dem Algorithmus aus unserem `SecretKeySpec` hashen damit den übergebenen String und encoden das ganze Base64.  
 Also gilt es rauszufinden welcher String übergeben wird. Und wo der `SecretKeySpec` initialisiert wird.  
 Fangen wir mit dem String an. Zurück zum Aufruf von eben. Dort wurde `v1` übergeben als String.
 
@@ -197,7 +198,7 @@ Zurück in "unsere App" irgendwo muss der ja stehen.
 #### Die Suche nach dem Key
 
 Wie kommen wir jetzt an den Key? Ein bisschen weiter in der Funktion stöbern und es fällt auf das der `SecretKeySpec` reingegeben wird. Der wird also woanders initialisiert. Suchen wir doch mal nach `javax/crypto/spec/SecretKeySpec` wie oft taucht das auf?  
-Leider 84 mal. Das hilft noch nicht. Wenn wir aber nach initialisierungen suchen. Also `javax/crypto/spec/SecretKeySpec;-><init>` nur noch 17 mal. Dazu die hälfte in google Libraries und genau ein mal in einer Date die als `common` sortiert wurde.
+Leider 84 mal. Das hilft noch nicht. Wenn wir aber nach initialisierungen suchen. Also `javax/crypto/spec/SecretKeySpec;-><init>` nur noch 17 mal. Dazu die hälfte in google Libraries und genau ein mal in einer Datei die als `common` sortiert wurde.
 
 Schauen wir uns den relevanten Teil an.
 
