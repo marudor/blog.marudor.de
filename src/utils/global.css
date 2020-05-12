@@ -1,6 +1,22 @@
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #303030;
-    color: hsla(100, 100%, 100%, 0.9);
+:root {
+  --bg-color: #303030;
+  --text-color: hsla(100, 100%, 100%, 0.9);
+  --link-color: #42a5f5;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: inherit;
+    --text-color: hsla(0, 0, 0, 0.9);
+    --link-color: #283593;
   }
+}
+
+.token-line {
+  display: table-row;
+}
+
+twitter-widget {
+  margin-left: auto;
+  margin-right: auto;
 }

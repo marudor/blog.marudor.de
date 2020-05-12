@@ -21,7 +21,7 @@ class BlogIndex extends React.Component<any> {
           const title = node.frontmatter.title || node.fields.slug;
 
           return (
-            <div key={node.fields.slug}>
+            <article key={node.fields.slug}>
               <h3
                 style={{
                   marginBottom: rhythm(1 / 4),
@@ -31,7 +31,7 @@ class BlogIndex extends React.Component<any> {
               </h3>
               <small>{node.frontmatter.date}</small>
               <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-            </div>
+            </article>
           );
         })}
       </Layout>
@@ -60,7 +60,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "MMMM DD, YYYY")
+            date(formatString: "DD.mm.YYYY")
             title
             published
           }
