@@ -16,7 +16,7 @@ Es ging drum das Züge am Halt „Norddeich Mole“ doppelt angezeigt werden. Al
 ## Einschub - IRIS-TTS
 
 Was ist eigentlich das IRIS-TTS?  
-Kurz gesagt die Hauptdatenquelle von marudor.de. Es ist auch die erste Datenquellen gewesen und für die Abfahrten zuständig. Das ganze bietet verschiedene Schnittstellen. Relevant dafür sind 3 verschiedene Endpunkte.
+Kurz gesagt die Hauptdatenquelle von https://marudor.de. Es ist auch die erste Datenquellen gewesen und für die Abfahrten zuständig. Das ganze bietet verschiedene Schnittstellen. Relevant dafür sind 3 verschiedene Endpunkte.
 
 - `/station`
 - `/plan`
@@ -69,14 +69,14 @@ import norddeich from './norddeich.svg';
 
 Hier fallen direkt mehrere Probleme auf. Zum einen ist Norddeich nicht gleich Norddeich Mole. Das sind 4 Minuten RE fahrt.  
 Zum anderen ist Norddeich Mole zu Norddeich gleich und Norddeich zu Norddeich Flugplatz. Norddeich Flugplatz aber nicht zu Norddeich Mole. Irgendwie passt das nicht ganz.
-Da an Norddeich Flugplatz keine Züge fahren ist das für marudor.de erst mal egal. Norddeich allerdings sollte nicht gleichgesetzt werden zu Norddeich Mole.  
+Da an Norddeich Flugplatz keine Züge fahren ist das für https://marudor.de erst mal egal. Norddeich allerdings sollte nicht gleichgesetzt werden zu Norddeich Mole.  
 Für mich ist das tatsächlich durch manuellen Eingriff gelöst. Ich Filter bestimmte `meta` ids bei bestimmten Stationen raus.
 
 ## Rekursiv?
 
 Ein weiteres Problem das hier deutlich wird ist wie weit schau ich meta an? Suche ich so lange bis ich keine neuen Stationen finde? Dann würde hier Norddeich Mole auch Norddeich Flugplatz finden.  
 Oder schau ich nur direkte meta Stationen an?  
-Für marudor.de ist entschieden das nur direkte Stationen beachtet\_ werden. Anfangs war das anders, da hab ich rekursiv gesucht. Bis ich mir mal München angeschaut habe.  
+Für https://marudor.de ist entschieden das nur direkte Stationen beachtet werden. Anfangs war das anders, da hab ich rekursiv gesucht. Bis ich mir mal München angeschaut habe.  
 Auch dazu mal ein Bild.
 
 import muenchen from './muenchen.svg';
