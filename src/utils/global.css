@@ -2,6 +2,7 @@
   --bg-color: #303030;
   --text-color: hsla(100, 100%, 100%, 0.9);
   --link-color: #42a5f5;
+  --blockquote-text-color: hsla(255, 100%, 100%, 0.59);
 }
 
 @media (prefers-color-scheme: light) {
@@ -9,6 +10,7 @@
     --bg-color: inherit;
     --text-color: hsla(0, 0, 0, 0.9);
     --link-color: #283593;
+    --blockquote-text-color: hsla(0, 0%, 0%, 0.59);
   }
 }
 
@@ -19,4 +21,9 @@
 twitter-widget {
   margin-left: auto;
   margin-right: auto;
+}
+
+blockquote {
+  border-color: var(--text-color);
+  color: var(--blockquote-text-color);
 }
