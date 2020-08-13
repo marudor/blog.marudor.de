@@ -71,7 +71,14 @@ function SEO({ description, lang, meta, keywords, title }: Props) {
                   : []
               )
               .concat(meta)}
-          />
+          >
+            <script
+              async
+              defer
+              data-domain="blog.marudor.de"
+              src="https://stats.marudor.de/js/index.js"
+            />
+          </Helmet>
         );
       }}
     />
